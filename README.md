@@ -1,0 +1,2 @@
+# snake
+Adapt to Linux
