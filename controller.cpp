@@ -1,15 +1,16 @@
 #include <iostream>
 #include <time.h>
-#include <conio.h>
-#include <windows.h>
+// #include <conio.h> 移除windows特有文件夹
+// #include <windows.h>
 #include "controller.h"
 #include "tools.h"
 #include "startinterface.h"
 #include "map.h"
 #include "snake.h"
 #include "food.h"
+#include <unistd.h> //linux 下的头文件用于usleep
 
-void Controller::Start()//开始界面
+void Controller::Start()//开始游戏
 {
     SetWindowSize(41, 32);//设置窗口大小
     SetColor(2);//设置开始动画颜色
@@ -21,7 +22,8 @@ void Controller::Start()//开始界面
     SetCursorPosition(13, 26);
     std::cout << "Press any key to start... " ;
     SetCursorPosition(13, 27);
-    system("pause");
+    // system("pause");
+    std::cin.get();//等待enter键输入
 }
 
 void Controller::Select()//选择界面
@@ -275,7 +277,7 @@ int Controller::PlayGame()//游戏二级循环
             cfood->FlashBigFood();
         }
 
-        Sleep(speed);//制造蛇的移动效果
+        usleep(speed * 1000);//制造蛇的移动效果，单位是微秒
     }
 
     /*蛇死亡*/
@@ -323,15 +325,15 @@ int Controller::Menu()//选择菜单
     SetColor(11);
     SetCursorPosition(32, 19);
     std::cout << "菜单：" ;
-    Sleep(100);
+    usleep(10000);
     SetCursorPosition(34, 21);
     SetBackColor();
     std::cout << "继续游戏" ;
-    Sleep(100);
+    usleep(10000);
     SetCursorPosition(34, 23);
     SetColor(11);
     std::cout << "重新开始" ;
-    Sleep(100);
+    usleep(10000);
     SetCursorPosition(34, 25);
     std::cout << "退出游戏" ;
     SetCursorPosition(0, 31);
@@ -458,53 +460,53 @@ void Controller::Game()//游戏一级循环
 int Controller::GameOver()//游戏结束界面
 {
     /*绘制游戏结束界面*/
-    Sleep(500);
+    usleep(5000);
     SetColor(11);
     SetCursorPosition(10, 8);
     std::cout << "━━━━━━━━━━━━━━━━━━━━━━" ;
-    Sleep(30);
+    usleep(3000);
     SetCursorPosition(9, 9);
     std::cout << " ┃               Game Over !!!              ┃" ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 10);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 11);
     std::cout << " ┃              很遗憾！你挂了              ┃" ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 12);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 13);
     std::cout << " ┃             你的分数为：                 ┃" ;
     SetCursorPosition(24, 13);
     std::cout << score ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 14);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 15);
     std::cout << " ┃   是否再来一局？                         ┃" ;
-    Sleep(30);
+    usleep(30000);
     SetCursorPosition(9, 16);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30);
     SetCursorPosition(9, 17);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30);
     SetCursorPosition(9, 18);
     std::cout << " ┃    嗯，好的        不了，还是学习有意思  ┃" ;
-    Sleep(30);
+    usleep(30);
     SetCursorPosition(9, 19);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30);
     SetCursorPosition(9, 20);
     std::cout << " ┃                                          ┃" ;
-    Sleep(30);
+    usleep(30);
     SetCursorPosition(10, 21);
     std::cout << "━━━━━━━━━━━━━━━━━━━━━━" ;
 
-    Sleep(100);
+    usleep(100);
     SetCursorPosition(12, 18);
     SetBackColor();
     std::cout << "嗯，好的" ;

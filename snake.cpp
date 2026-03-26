@@ -1,7 +1,8 @@
 #include "snake.h"
-#include <conio.h>
+// #include <conio.h>
 #include "tools.h"
 #include <iostream>
+#include <unistd.h> //linux 下的头文件用于sleep
 
 void Snake::InitSnake()//初始化蛇
 {

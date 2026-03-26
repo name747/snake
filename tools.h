@@ -7,4 +7,10 @@ void SetCursorPosition(const int x, const int y);
 void SetColor(int colorID);
 void SetBackColor();
 
+//LINUX TOOLS functions for keyboard input
+int kbhit();
+
+int getch();
+
+
 #endif // TOOLS_H

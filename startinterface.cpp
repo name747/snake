@@ -1,5 +1,6 @@
 #include "startinterface.h"
-#include <windows.h>
+#include <unistd.h> //linux 下的头文件用于sleep
+// #include <windows.h>
 
 
 void StartInterface::PrintFirst()//蛇从左边出现到完全出现的过程
@@ -7,7 +8,7 @@ void StartInterface::PrintFirst()//蛇从左边出现到完全出现的过程
     for (auto& point : startsnake)
     {
         point.Print();
-        Sleep(speed);
+        usleep(speed * 1000);//将Sleep(speed)替换为usleep(speed * 1000)，因为usleep的单位是微秒;
     }
 }
 
@@ -21,7 +22,7 @@ void StartInterface::PrintSecond()//蛇从左向右移动的过程
         startsnake.back().Print();
         startsnake.front().Clear();
         startsnake.pop_front();
-        Sleep(speed);
+        usleep(speed * 1000);//将Sleep(speed)替换为usleep(speed * 1000)，因为usleep的单位是微秒;
     }
 }
 
@@ -36,7 +37,7 @@ void StartInterface::PrintThird()//蛇从接触右边到消失的过程
         }
         ClearText();//清除已有文字
         PrintText();//绘制更新位置后的文字
-        Sleep(speed);
+        usleep(speed * 1000);//将Sleep(speed)替换为usleep(speed * 1000)，因为usleep的单位是微秒;
     }
 }
 
