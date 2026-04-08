@@ -1,6 +1,6 @@
 #include <iostream>
 #include <time.h>
-// #include <conio.h> ÒÆ³ıwindowsÌØÓĞÎÄ¼ş¼Ğ
+// #include <conio.h> Remove windows header file
 // #include <windows.h>
 #include "controller.h"
 #include "tools.h"
@@ -8,92 +8,92 @@
 #include "map.h"
 #include "snake.h"
 #include "food.h"
-#include <unistd.h> //linux ÏÂµÄÍ·ÎÄ¼şÓÃÓÚusleep
+#include <unistd.h> //linux header file for usleep
 
-void Controller::Start()//¿ªÊ¼ÓÎÏ·
+void Controller::Start()//Initialize game
 {
-    SetWindowSize(41, 32);//ÉèÖÃ´°¿Ú´óĞ¡
-    SetColor(2);//ÉèÖÃ¿ªÊ¼¶¯»­ÑÕÉ«
-    StartInterface *start = new StartInterface();//¶¯Ì¬·ÖÅäÒ»¸öStartInterfaceÀàstart
-    start->Action();//¿ªÊ¼¶¯»­
-    delete start;//ÊÍ·ÅÄÚ´æ¿Õ¼ä
+    SetWindowSize(41, 32);//Set window size
+    SetColor(2);//Set initial color
+    StartInterface *start = new StartInterface();//Dynamically create a StartInterface object
+    start->Action();//Start interface
+    delete start;//Release memory space
 
-    /*ÉèÖÃ¹Ø±êÎ»ÖÃ£¬²¢Êä³öÌáÊ¾Óï£¬µÈ´ıÈÎÒâ¼üÊäÈë½áÊø*/
+    /*Set cursor position, show message, wait for user input*/
     SetCursorPosition(13, 26);
     std::cout << "Press any key to start... " ;
     SetCursorPosition(13, 27);
     // system("pause");
-    std::cin.get();//µÈ´ıenter¼üÊäÈë
+    getch(); //Wait for any key
 }
 
-void Controller::Select()//Ñ¡Ôñ½çÃæ
+void Controller::Select()//Select difficulty
 {
-    /*³õÊ¼»¯½çÃæÑ¡Ïî*/
+    /*Start interface selection*/
     SetColor(3);
     SetCursorPosition(13, 26);
     std::cout << "                          " ;
     SetCursorPosition(13, 27);
     std::cout << "                          " ;
     SetCursorPosition(6, 21);
-    std::cout << "ÇëÑ¡ÔñÓÎÏ·ÄÑ¶È£º" ;
+    std::cout << "Select game difficulty:" ;
     SetCursorPosition(6, 22);
-    std::cout << "(ÉÏÏÂ¼üÑ¡Ôñ,»Ø³µÈ·ÈÏ)" ;
+    std::cout << "(Up/Down to select, Enter to confirm)" ;
     SetCursorPosition(27, 22);
-    SetBackColor();//µÚÒ»¸öÑ¡ÏîÉèÖÃ±³¾°É«ÒÔ±íÊ¾µ±Ç°Ñ¡ÖĞ
-    std::cout << "¼òµ¥Ä£Ê½" ;
+    SetBackColor();//Highlight selected option with background color
+    std::cout << "Easy" ;
     SetCursorPosition(27, 24);
     SetColor(3);
-    std::cout << "ÆÕÍ¨Ä£Ê½" ;
+    std::cout << "Normal" ;
     SetCursorPosition(27, 26);
-    std::cout << "À§ÄÑÄ£Ê½" ;
+    std::cout << "Hard" ;
     SetCursorPosition(27, 28);
-    std::cout << "Á¶ÓüÄ£Ê½" ;
+    std::cout << "Extreme" ;
     SetCursorPosition(0, 31);
     score = 0;
 
-    /*ÉÏÏÂ·½Ïò¼üÑ¡ÔñÄ£¿é*/
-    int ch;//¼ÇÂ¼¼üÈëÖµ
-    key = 1;//¼ÇÂ¼Ñ¡ÖĞÏî£¬³õÊ¼Ñ¡ÔñµÚÒ»¸ö
-    bool flag = false;//¼ÇÂ¼ÊÇ·ñ¼üÈëEnter¼ü±ê¼Ç£¬³õÊ¼ÖÃÎª·ñ
+    /*Difficulty selection mode*/
+    int ch;//Record key value
+    key = 1;//Record selected option, initially select first option
+    bool flag = false;//Record whether Enter is pressed, initially false
     while ((ch = getch()))
     {
-        switch (ch)//¼ì²âÊäÈë¼ü
+        switch (ch)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
-        case 72://UPÉÏ·½Ïò¼ü
-            if (key > 1)//µ±´ËÊ±Ñ¡ÖĞÏîÎªµÚÒ»ÏîÊ±£¬UPÉÏ·½Ïò¼üÎŞĞ§
+        case 72://UPï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+            if (key > 1)//ï¿½ï¿½ï¿½ï¿½Ê±Ñ¡ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½Ê±ï¿½ï¿½UPï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§
             {
                 switch (key)
                 {
                 case 2:
-                    SetCursorPosition(27, 22);//¸ø´ıÑ¡ÖĞÏîÉèÖÃ±³¾°É«
+                    SetCursorPosition(27, 22);//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«
                     SetBackColor();
-                    std::cout << "¼òµ¥Ä£Ê½" ;
+                    std::cout << "ï¿½ï¿½Ä£Ê½" ;
 
-                    SetCursorPosition(27, 24);//½«ÒÑÑ¡ÖĞÏîÈ¡ÏûÎÒ±³¾°É«
+                    SetCursorPosition(27, 24);//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½É«
                     SetColor(3);
-                    std::cout << "ÆÕÍ¨Ä£Ê½" ;
+                    std::cout << "ï¿½ï¿½Í¨Ä£Ê½" ;
 
                     --key;
                     break;
                 case 3:
                     SetCursorPosition(27, 24);
                     SetBackColor();
-                    std::cout << "ÆÕÍ¨Ä£Ê½" ;
+                    std::cout << "ï¿½ï¿½Í¨Ä£Ê½" ;
 
                     SetCursorPosition(27, 26);
                     SetColor(3);
-                    std::cout << "À§ÄÑÄ£Ê½" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½Ä£Ê½" ;
 
                     --key;
                     break;
                 case 4:
                     SetCursorPosition(27, 26);
                     SetBackColor();
-                    std::cout << "À§ÄÑÄ£Ê½" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½Ä£Ê½" ;
 
                     SetCursorPosition(27, 28);
                     SetColor(3);
-                    std::cout << "Á¶ÓüÄ£Ê½" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½Ä£Ê½" ;
 
                     --key;
                     break;
@@ -101,7 +101,7 @@ void Controller::Select()//Ñ¡Ôñ½çÃæ
             }
             break;
 
-        case 80://DOWNÏÂ·½Ïò¼ü
+        case 80://DOWNï¿½Â·ï¿½ï¿½ï¿½ï¿½
             if (key < 4)
             {
                 switch (key)
@@ -109,30 +109,30 @@ void Controller::Select()//Ñ¡Ôñ½çÃæ
                 case 1:
                     SetCursorPosition(27, 24);
                     SetBackColor();
-                    std::cout << "ÆÕÍ¨Ä£Ê½" ;
+                    std::cout << "ï¿½ï¿½Í¨Ä£Ê½" ;
                     SetCursorPosition(27, 22);
                     SetColor(3);
-                    std::cout << "¼òµ¥Ä£Ê½" ;
+                    std::cout << "ï¿½ï¿½Ä£Ê½" ;
 
                     ++key;
                     break;
                 case 2:
                     SetCursorPosition(27, 26);
                     SetBackColor();
-                    std::cout << "À§ÄÑÄ£Ê½" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½Ä£Ê½" ;
                     SetCursorPosition(27, 24);
                     SetColor(3);
-                    std::cout << "ÆÕÍ¨Ä£Ê½" ;
+                    std::cout << "ï¿½ï¿½Í¨Ä£Ê½" ;
 
                     ++key;
                     break;
                 case 3:
                     SetCursorPosition(27, 28);
                     SetBackColor();
-                    std::cout << "Á¶ÓüÄ£Ê½" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½Ä£Ê½" ;
                     SetCursorPosition(27, 26);
                     SetColor(3);
-                    std::cout << "À§ÄÑÄ£Ê½" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½Ä£Ê½" ;
 
                     ++key;
                     break;
@@ -140,18 +140,18 @@ void Controller::Select()//Ñ¡Ôñ½çÃæ
             }
             break;
 
-        case 13://Enter»Ø³µ¼ü
+        case 13://Enterï¿½Ø³ï¿½ï¿½ï¿½
             flag = true;
             break;
-        default://ÎŞĞ§°´¼ü
+        default://ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½
             break;
         }
-        if (flag) break;//ÊäÈëEnter»Ø³µ¼üÈ·ÈÏ£¬ÍË³ö¼ì²éÊäÈëÑ­»·
+        if (flag) break;//ï¿½ï¿½ï¿½ï¿½Enterï¿½Ø³ï¿½ï¿½ï¿½È·ï¿½Ï£ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 
-        SetCursorPosition(0, 31);//½«¹â±êÖÃÓÚ×óÏÂ½Ç£¬±ÜÃâ¹Ø±êÉÁË¸Ó°ÏìÓÎÏ·ÌåÑé
+        SetCursorPosition(0, 31);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½Ë¸Ó°ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
     }
 
-    switch (key)//¸ù¾İËùÑ¡Ñ¡ÏîÉèÖÃÉßµÄÒÆ¶¯ËÙ¶È£¬speedÖµÔ½Ğ¡£¬ËÙ¶ÈÔ½¿ì
+    switch (key)//Based on selected option, set movement speed, smaller speed value means faster speed
     {
     case 1:
         speed = 135;
@@ -170,139 +170,139 @@ void Controller::Select()//Ñ¡Ôñ½çÃæ
     }
 }
 
-void Controller::DrawGame()//»æÖÆÓÎÏ·½çÃæ
+void Controller::DrawGame()//Draw game interface
 {
-    system("cls");//ÇåÆÁ
+    system("cls");//ï¿½ï¿½ï¿½ï¿½
 
-    /*»æÖÆµØÍ¼*/
+    /*Draw game map*/
     SetColor(3);
     Map *init_map = new Map();
     init_map->PrintInitmap();
     delete init_map;
 
-    /*»æÖÆ²à±ßÀ¸*/
+    /*Draw title and info*/
     SetColor(3);
     SetCursorPosition(33, 1);
     std::cout << "Greedy Snake" ;
     SetCursorPosition(34, 2);
-    std::cout << "Ì°³ÔÉß" ;
+    std::cout << "Snake Game" ;
     SetCursorPosition(31, 4);
-    std::cout << "ÄÑ¶È£º" ;
+    std::cout << "Difficulty:" ;
     SetCursorPosition(36, 5);
     switch (key)
     {
     case 1:
-        std::cout << "¼òµ¥Ä£Ê½" ;
+        std::cout << "Easy" ;
         break;
     case 2:
-        std::cout << "ÆÕÍ¨Ä£Ê½" ;
+        std::cout << "Normal" ;
         break;
     case 3:
-        std::cout << "À§ÄÑÄ£Ê½" ;
+        std::cout << "Hard" ;
         break;
     case 4:
-        std::cout << "Á¶ÓüÄ£Ê½" ;
+        std::cout << "Extreme" ;
         break;
     default:
         break;
     }
     SetCursorPosition(31, 7);
-    std::cout << "µÃ·Ö£º" ;
+    std::cout << "Score:" ;
     SetCursorPosition(37, 8);
     std::cout << "     0" ;
     SetCursorPosition(33, 13);
-    std::cout << " ·½Ïò¼üÒÆ¶¯" ;
+    std::cout << " Arrow keys to move" ;
     SetCursorPosition(33, 15);
-    std::cout << " ESC¼üÔİÍ£" ;
+    std::cout << " ESC to pause" ;
 }
 
-int Controller::PlayGame()//ÓÎÏ·¶ş¼¶Ñ­»·
+int Controller::PlayGame()//Game main loop
 {
-    /*³õÊ¼»¯ÉßºÍÊ³Îï*/
+    /*Initialize snake and food*/
     Snake *csnake = new Snake();
     Food *cfood = new Food();
     SetColor(6);
     csnake->InitSnake();
-    srand((unsigned)time(NULL));//ÉèÖÃËæ»úÊıÖÖ×Ó£¬Èç¹ûÃ»ÓĞ Ê³ÎïµÄ³öÏÖÎ»ÖÃ½«»á¹Ì¶¨
+    srand((unsigned)time(NULL)); // Initialize random seed, otherwise food position will be fixed
     cfood->DrawFood(*csnake);
 
-    /*ÓÎÏ·Ñ­»·*/
-    while (csnake->OverEdge() && csnake->HitItself()) //ÅĞ¶ÏÊÇ·ñ×²Ç½»ò×²µ½×ÔÉí£¬¼´ÊÇ·ñ»¹ÓĞÉúÃü
+    /*Game main loop*/
+    while (csnake->OverEdge() && csnake->HitItself()) //Check if hitting wall or itself
     {
-        /*µ÷³öÑ¡Ôñ²Ëµ¥*/
-        if (!csnake->ChangeDirection()) //°´Esc¼üÊ±
+        /*Display menu options*/
+        if (!csnake->ChangeDirection()) //When ESC is pressed
         {
-            int tmp = Menu();//»æÖÆ²Ëµ¥£¬²¢µÃµ½·µ»ØÖµ
+            int tmp = Menu();//Display menu and get return value
             switch (tmp)
             {
-            case 1://¼ÌĞøÓÎÏ·
+            case 1://Continue game
                 break;
 
-            case 2://ÖØĞÂ¿ªÊ¼
+            case 2://Restart game
                 delete csnake;
                 delete cfood;
-                return 1;//½«1×÷ÎªPlayGameº¯ÊıµÄ·µ»ØÖµ·µ»Øµ½Gameº¯ÊıÖĞ£¬±íÊ¾ÖØĞÂ¿ªÊ¼
+                return 1;//Return 1 as PlayGame return value, back to Game function, indicates restart
 
-            case 3://ÍË³öÓÎÏ·
+            case 3://Exit game
                 delete csnake;
                 delete cfood;
-                return 2;//½«2×÷ÎªPlayGameº¯ÊıµÄ·µ»ØÖµ·µ»Øµ½Gameº¯ÊıÖĞ£¬±íÊ¾ÍË³öÓÎÏ·
+                return 2;//Return 2 as PlayGame return value, back to Game function, indicates exit
 
             default:
                 break;
             }
         }
 
-        if (csnake->GetFood(*cfood)) //³Ôµ½Ê³Îï
+        if (csnake->GetFood(*cfood)) //Get food
         {
-            csnake->Move();//ÉßÔö³¤
-            UpdateScore(1);//¸üĞÂ·ÖÊı£¬1Îª·ÖÊıÈ¨ÖØ
-            RewriteScore();//ÖØĞÂ»æÖÆ·ÖÊı
-            cfood->DrawFood(*csnake);//»æÖÆĞÂÊ³Îï
+            csnake->Move();//Move snake
+            UpdateScore(1); // Update score 1 as food value
+            RewriteScore();//Redraw score
+            cfood->DrawFood(*csnake);//Draw new food
         }
         else
         {
-            csnake->NormalMove();//ÉßÕı³£ÒÆ¶¯
+            csnake->NormalMove();//Normal snake movement
         }
 
-        if (csnake->GetBigFood(*cfood)) //³Ôµ½ÏŞÊ±Ê³Îï
+        if (csnake->GetBigFood(*cfood)) //Get big food
         {
             csnake->Move();
-            UpdateScore(cfood->GetProgressBar()/5);//·ÖÊı¸ù¾İÏŞÊ±Ê³Îï½ø¶ÈÌõÈ·¶¨
+            UpdateScore(cfood->GetProgressBar()/5);//Update score based on big food progress
             RewriteScore();
         }
 
-        if (cfood->GetBigFlag()) //Èç¹û´ËÊ±ÓĞÏŞÊ±Ê³Îï£¬ÉÁË¸Ëü
+        if (cfood->GetBigFlag()) //When big food appears, flash
         {
             cfood->FlashBigFood();
         }
 
-        usleep(speed * 1000);//ÖÆÔìÉßµÄÒÆ¶¯Ğ§¹û£¬µ¥Î»ÊÇÎ¢Ãë
+        usleep(speed * 1000);//ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½Æ¶ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Î¢ï¿½ï¿½
     }
 
-    /*ÉßËÀÍö*/
-    delete csnake;//ÊÍ·Å·ÖÅäµÄÄÚ´æ¿Õ¼ä
+    /*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+    delete csnake;//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½Õ¼ï¿½
     delete cfood;
-    int tmp = GameOver();//»æÖÆÓÎÏ·½áÊø½çÃæ£¬²¢·µ»ØËùÑ¡Ïî
+    int tmp = GameOver();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
     switch (tmp)
     {
     case 1:
-        return 1;//ÖØĞÂ¿ªÊ¼
+        return 1;//ï¿½ï¿½ï¿½Â¿ï¿½Ê¼
     case 2:
-        return 2;//ÍË³öÓÎÏ·
+        return 2;//ï¿½Ë³ï¿½ï¿½ï¿½Ï·
     default:
         return 2;
     }
 }
 
-void Controller::UpdateScore(const int& tmp)//¸üĞÂ·ÖÊı
+void Controller::UpdateScore(const int& tmp)//ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½
 {
-    score += key * 10 * tmp;//ËùµÃ·ÖÊı¸ù¾İÓÎÏ·ÄÑ¶È¼°´«ÈËµÄ²ÎÊıtmpÈ·¶¨
+    score += key * 10 * tmp;//ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ñ¶È¼ï¿½ï¿½ï¿½ï¿½ËµÄ²ï¿½ï¿½ï¿½tmpÈ·ï¿½ï¿½
 }
 
-void Controller::RewriteScore()//ÖØ»æ·ÖÊı
+void Controller::RewriteScore()//ï¿½Ø»ï¿½ï¿½ï¿½ï¿½
 {
-    /*Îª±£³Ö·ÖÊıÎ²²¿¶ÔÆë£¬½«×î´ó·ÖÊıÉèÖÃÎª6Î»£¬¼ÆËãµ±Ç°·ÖÊıÎ»Êı£¬½«Ê£ÓàÎ»ÊıÓÃ¿Õ¸ñ²¹È«£¬ÔÙÊä³ö·ÖÊı*/
+    /*Îªï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª6Î»ï¿½ï¿½ï¿½ï¿½ï¿½ãµ±Ç°ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½Î»ï¿½ï¿½ï¿½Ã¿Õ¸ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
     SetCursorPosition(37, 8);
     SetColor(11);
     int bit = 0;
@@ -319,26 +319,26 @@ void Controller::RewriteScore()//ÖØ»æ·ÖÊı
     std::cout << score ;
 }
 
-int Controller::Menu()//Ñ¡Ôñ²Ëµ¥
+int Controller::Menu()//Menu selection
 {
-    /*»æÖÆ²Ëµ¥*/
+    /*Display menu*/
     SetColor(11);
     SetCursorPosition(32, 19);
-    std::cout << "²Ëµ¥£º" ;
+    std::cout << "Menu" ;
     usleep(10000);
     SetCursorPosition(34, 21);
     SetBackColor();
-    std::cout << "¼ÌĞøÓÎÏ·" ;
+    std::cout << "Continue Game" ;
     usleep(10000);
     SetCursorPosition(34, 23);
     SetColor(11);
-    std::cout << "ÖØĞÂ¿ªÊ¼" ;
+    std::cout << "Restart" ;
     usleep(10000);
     SetCursorPosition(34, 25);
-    std::cout << "ÍË³öÓÎÏ·" ;
+    std::cout << "Exit" ;
     SetCursorPosition(0, 31);
 
-    /*Ñ¡Ôñ²¿·Ö*/
+    /*Ñ¡ï¿½ñ²¿·ï¿½*/
     int ch;
     int tmp_key = 1;
     bool flag = false;
@@ -354,20 +354,20 @@ int Controller::Menu()//Ñ¡Ôñ²Ëµ¥
                 case 2:
                     SetCursorPosition(34, 21);
                     SetBackColor();
-                    std::cout << "¼ÌĞøÓÎÏ·" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·" ;
                     SetCursorPosition(34, 23);
                     SetColor(11);
-                    std::cout << "ÖØĞÂ¿ªÊ¼" ;
+                    std::cout << "ï¿½ï¿½ï¿½Â¿ï¿½Ê¼" ;
 
                     --tmp_key;
                     break;
                 case 3:
                     SetCursorPosition(34, 23);
                     SetBackColor();
-                    std::cout << "ÖØĞÂ¿ªÊ¼" ;
+                    std::cout << "ï¿½ï¿½ï¿½Â¿ï¿½Ê¼" ;
                     SetCursorPosition(34, 25);
                     SetColor(11);
-                    std::cout << "ÍË³öÓÎÏ·" ;
+                    std::cout << "ï¿½Ë³ï¿½ï¿½ï¿½Ï·" ;
 
                     --tmp_key;
                     break;
@@ -383,20 +383,20 @@ int Controller::Menu()//Ñ¡Ôñ²Ëµ¥
                 case 1:
                     SetCursorPosition(34, 23);
                     SetBackColor();
-                    std::cout << "ÖØĞÂ¿ªÊ¼" ;
+                    std::cout << "ï¿½ï¿½ï¿½Â¿ï¿½Ê¼" ;
                     SetCursorPosition(34, 21);
                     SetColor(11);
-                    std::cout << "¼ÌĞøÓÎÏ·" ;
+                    std::cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·" ;
 
                     ++tmp_key;
                     break;
                 case 2:
                     SetCursorPosition(34, 25);
                     SetBackColor();
-                    std::cout << "ÍË³öÓÎÏ·" ;
+                    std::cout << "ï¿½Ë³ï¿½ï¿½ï¿½Ï·" ;
                     SetCursorPosition(34, 23);
                     SetColor(11);
-                    std::cout << "ÖØĞÂ¿ªÊ¼" ;
+                    std::cout << "ï¿½ï¿½ï¿½Â¿ï¿½Ê¼" ;
 
                     ++tmp_key;
                     break;
@@ -419,7 +419,7 @@ int Controller::Menu()//Ñ¡Ôñ²Ëµ¥
         SetCursorPosition(0, 31);
     }
 
-    if (tmp_key == 1) //Ñ¡Ôñ¼ÌĞøÓÎÏ·£¬Ôò½«²Ëµ¥²Á³ı
+    if (tmp_key == 1) //Select continue game then hide menu
     {
         SetCursorPosition(32, 19);
         std::cout << "      " ;
@@ -433,20 +433,20 @@ int Controller::Menu()//Ñ¡Ôñ²Ëµ¥
     return tmp_key;
 }
 
-void Controller::Game()//ÓÎÏ·Ò»¼¶Ñ­»·
+void Controller::Game()//Game main loop
 {
-    Start();//¿ªÊ¼½çÃæ
-    while (true)//ÓÎÏ·¿ÉÊÓÎªÒ»¸öËÀÑ­»·£¬Ö±µ½ÍË³öÓÎÏ·Ê±Ñ­»·½áÊø
+    Start();//Initialize
+    while (true)//Game runs as a loop until exit game
     {
-        Select();//Ñ¡Ôñ½çÃæ
-        DrawGame();//»æÖÆÓÎÏ·½çÃæ
-        int tmp = PlayGame();//¿ªÆôÓÎÏ·Ñ­»·£¬µ±ÖØĞÂ¿ªÊ¼»òÍË³öÓÎÏ·Ê±£¬½áÊøÑ­»·²¢·µ»ØÖµ¸øtmp
-        if (tmp == 1) //·µ»ØÖµÎª1Ê±ÖØĞÂ¿ªÊ¼ÓÎÏ·
+        Select();//Select difficulty
+        DrawGame();//Draw game interface
+        int tmp = PlayGame();//Run game loop, when restart or exit, return value to tmp
+        if (tmp == 1) //When return value is 1, restart game
         {
             system("cls");
             continue;
         }
-        else if (tmp == 2) //·µ»ØÖµÎª2Ê±ÍË³öÓÎÏ·
+        else if (tmp == 2) //When return value is 2, exit game
         {
             break;
         }
@@ -457,62 +457,62 @@ void Controller::Game()//ÓÎÏ·Ò»¼¶Ñ­»·
     }
 }
 
-int Controller::GameOver()//ÓÎÏ·½áÊø½çÃæ
+int Controller::GameOver()//Game over screen
 {
-    /*»æÖÆÓÎÏ·½áÊø½çÃæ*/
+    /*Display game over screen*/
     usleep(5000);
     SetColor(11);
     SetCursorPosition(10, 8);
-    std::cout << "©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥" ;
+    std::cout << "========================================" ;
     usleep(3000);
     SetCursorPosition(9, 9);
-    std::cout << " ©§               Game Over !!!              ©§" ;
+    std::cout << "||              Game Over !!!            ||" ;
     usleep(30000);
     SetCursorPosition(9, 10);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30000);
     SetCursorPosition(9, 11);
-    std::cout << " ©§              ºÜÒÅº¶£¡Äã¹ÒÁË              ©§" ;
+    std::cout << "||           Better luck next time!      ||" ;
     usleep(30000);
     SetCursorPosition(9, 12);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30000);
     SetCursorPosition(9, 13);
-    std::cout << " ©§             ÄãµÄ·ÖÊıÎª£º                 ©§" ;
+    std::cout << "||            Your score:                ||" ;
     SetCursorPosition(24, 13);
     std::cout << score ;
     usleep(30000);
     SetCursorPosition(9, 14);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30000);
     SetCursorPosition(9, 15);
-    std::cout << " ©§   ÊÇ·ñÔÙÀ´Ò»¾Ö£¿                         ©§" ;
+    std::cout << "||   Would you like to play again?     ||" ;
     usleep(30000);
     SetCursorPosition(9, 16);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30);
     SetCursorPosition(9, 17);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30);
     SetCursorPosition(9, 18);
-    std::cout << " ©§    àÅ£¬ºÃµÄ        ²»ÁË£¬»¹ÊÇÑ§Ï°ÓĞÒâË¼  ©§" ;
+    std::cout << "||    Yes (Left)        No (Right)     ||" ;
     usleep(30);
     SetCursorPosition(9, 19);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30);
     SetCursorPosition(9, 20);
-    std::cout << " ©§                                          ©§" ;
+    std::cout << "||                                      ||" ;
     usleep(30);
     SetCursorPosition(10, 21);
-    std::cout << "©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥" ;
+    std::cout << "========================================" ;
 
     usleep(100);
     SetCursorPosition(12, 18);
     SetBackColor();
-    std::cout << "àÅ£¬ºÃµÄ" ;
+    std::cout << "Yes" ;
     SetCursorPosition(0, 31);
 
-    /*Ñ¡Ôñ²¿·Ö*/
+    /*Ñ¡ï¿½ñ²¿·ï¿½*/
     int ch;
     int tmp_key = 1;
     bool flag = false;
@@ -525,10 +525,10 @@ int Controller::GameOver()//ÓÎÏ·½áÊø½çÃæ
             {
                 SetCursorPosition(12, 18);
                 SetBackColor();
-                std::cout << "àÅ£¬ºÃµÄ" ;
+                std::cout << "Yes" ;
                 SetCursorPosition(20, 18);
                 SetColor(11);
-                std::cout << "²»ÁË£¬»¹ÊÇÑ§Ï°ÓĞÒâË¼" ;
+                std::cout << "No, thanks for playing!" ;
                 --tmp_key;
             }
             break;
@@ -538,10 +538,10 @@ int Controller::GameOver()//ÓÎÏ·½áÊø½çÃæ
             {
                 SetCursorPosition(20, 18);
                 SetBackColor();
-                std::cout << "²»ÁË£¬»¹ÊÇÑ§Ï°ÓĞÒâË¼" ;
+                std::cout << "No, thanks for playing!" ;
                 SetCursorPosition(12, 18);
                 SetColor(11);
-                std::cout << "àÅ£¬ºÃµÄ" ;
+                std::cout << "Yes" ;
                 ++tmp_key;
             }
             break;
@@ -564,9 +564,9 @@ int Controller::GameOver()//ÓÎÏ·½áÊø½çÃæ
     switch (tmp_key)
     {
     case 1:
-        return 1;//ÖØĞÂ¿ªÊ¼
+        return 1;//Restart
     case 2:
-        return 2;//ÍË³öÓÎÏ·
+        return 2;//Exit
     default:
         return 1;
     }

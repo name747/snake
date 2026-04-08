@@ -1,12 +1,12 @@
 #include "map.h"
-#include <unistd.h> //linux 下的头文件用于sleep
+#include <unistd.h> //linux header file for sleep
 // #include <windows.h>
 
-void Map::PrintInitmap()//绘制初始地图
+void Map::PrintInitmap()//Draw initial map
 {
     for (auto& point : initmap)
     {
         point.Print();
-        usleep(10000);//将Sleep(10)替换为usleep(10000)，因为usleep的单位是微秒;
+        usleep(10000);//Replace Sleep(10) with usleep(10000), unit is microseconds;
     }
 }

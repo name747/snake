@@ -2,19 +2,19 @@
 #include "tools.h"
 #include <iostream>
 
-void Point::Print()//输出方块
+void Point::Print()//Print square block
 {
     SetCursorPosition(x, y);
     std::cout << "■" ;
 }
 
-void Point::PrintCircular()//输出圆形
+void Point::PrintCircular()//Print circle
 {
     SetCursorPosition(x, y);
     std::cout << "●" ;
 }
 
-void Point::Clear()//清除输出
+void Point::Clear()//Clear output
 {
     SetCursorPosition(x, y);
     std::cout << "  " ;

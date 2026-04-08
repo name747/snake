@@ -5,28 +5,30 @@
 #include <sys/ioctl.h>
 #include <sys/select.h>
 #include <fcntl.h>
+#include <locale.h>
 // #include <windows.h>
 
 
-void SetWindowSize(int cols, int lines)//设置窗口大小
+void SetWindowSize(int cols, int lines)//设置窗口大小  
 {
-    // system("title 贪吃蛇");//设置窗口标题
     // char cmd[30];
     // sprintf(cmd, "mode con cols=%d lines=%d", cols * 2, lines);//一个图形■占两个字符，故宽度乘以2
     // system(cmd);//system(mode con cols=88 lines=88)设置窗口宽度和高度
     // Linux下不需要设置窗口大小，终端大小由用户控制
+    // 设置 locale 为系统默认（支持 GB2312）
+    setlocale(LC_ALL, "");
     printf("\033[2J");
     printf("please set window size is %d x %d \n", cols, lines);
     fflush(stdout);
 }
 
-void SetCursorPosition(const int x, const int y)//设置光标位置
+void SetCursorPosition(const int x, const int y)//设置光标位置 
 {
     // COORD position;
     // position.X = x * 2;
     // position.Y = y;
     // SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
-    // 使用ANSI转义序列设置光标位置
+    // 使用ANSI转义码来设置光标位置
     printf("\033[%d;%dH", y + 1, x + 1);
     fflush(stdout);
 }
